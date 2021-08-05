@@ -1,49 +1,39 @@
-window.addEventListener('DOMContentLoaded', (e) => {
+window.addEventListener('DOMContentLoaded', () => {
+    console.log('DOMContentLoaded')
+  
+    //get the textarea
+    const textarea = document.querySelector('textarea')
 
-    console.log('dom loaded')
-    //get the input
-    const firstInput = document.querySelector('.choice-input')
+    //get the randomize button
+    const button = document.querySelector('.randomize')
 
-    //get the add button
-    const addChoiceButton = document.querySelector(".add-choice");
-
-    //get the remove button
-    const removeChoiceButton = document.querySelector(".minus-choice")
-
-    //get the wrapper for the choices
+    //get the choices wrapper
+    const choicesWrapper = document.querySelector('.choices')
 
 
+    textarea.focus()    //automatically focuses the textarea when page loads
 
-    //this function creates a new choice and appends it to the dom
-    const createNewChoice = () => {
-        console.log('creating new choice...')
+    //get the value from the textarea
+    textarea.addEventListener('keyup', (e) => {
+        createChoice(e.target.value)
+    })
 
-        const input = document.createElement('input')
-        .classList.add('choice-input')
-        .placeholder('Enter a place to eat')
+    function createChoice(choices){
+        const choicesList = choices.split(',')  //split where there is a comma
+        const filterEmptyChoices = choicesList.filter( choice => choice !== ' ' )   //filter out empty choices
+        const trimChoices = filterEmptyChoices.map( (choice) => choice.trim() ) //remove whitespace at beginning and end of every choice
+        
+        choicesWrapper.textContent = ''
 
-        const button = document.createElement('button')
-        .classList.add('minus-choice').contentText('Remove')
+        //create a choice element for each choice
+        trimChoices.forEach( (choice) => {
+            const choiceSpan = document.createElement('span')
+            choiceSpan.classList.add('choice')
+            choiceSpan.textContent = choice
 
-        const div = document.createElement('div')
-        .classList.add('choice-wrapper')
-
-        div.append(input)
-        div.append(button)
+            choicesWrapper.appendChild(choiceSpan)
+        })
+   
     }
-
-    //handle the add choice button click
-    addChoiceButton.addEventListener('click', createNewChoice)
-
-
-
-    const removeChoice = () => {
-        console.log('removing choice..')
-    }
-
-    //handle the remove button click
-    removeChoiceButton.addEventListener('click', removeChoice)
-
- 
 
 })
