@@ -35,7 +35,11 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     //event listener for when button is clicked
-    button.addEventListener('click', randomize)
+    button.addEventListener('click', (e) => {
+        const currentChoices = document.querySelectorAll('.choice')
+        currentChoices.forEach( (choice) => choice.classList.remove('selected-choice')) //ensures there is no highlighted choice when clicking randomize button again
+        randomize()
+    })
 
     //function for looping through node list of choices
     function randomize(){
